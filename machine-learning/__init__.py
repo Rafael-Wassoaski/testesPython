@@ -6,13 +6,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-baseCredit = pd.read_csv("../../../Documents/estudos/credit_risk_dataset.csv");
+baseCredit = pd.read_csv("../../credit_risk_dataset.csv");
 
 # print(baseCredit["loan_amnt"].describe());
 
 print(np.unique(baseCredit["loan_status"], return_counts=True));
 
-# sns.countplot(x = "person_age", data = baseCredit);
+#sns.countplot(x = "person_age", data = baseCredit);
 # print(baseCredit.loc[baseCredit["person_age"] <= 0]);
 # deletar coluna (0 é linha 1 é coluna)
 baseCredit2 = baseCredit.drop('person_age', axis=1);
