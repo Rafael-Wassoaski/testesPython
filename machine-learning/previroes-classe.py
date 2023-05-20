@@ -31,4 +31,20 @@ print(xCredit);
 xCredit = scalerCredit.fit_transform(xCredit)
 print(xCredit);
 
+adultData = pd.read_csv("../../adult.csv");
+print(adultData.describe());
+print(np.unique(adultData["income"], return_counts=True));
+#sns.countplot(x=adultData["income"]);
+#plt.hist(x= adultData["age"]);
+#plt.hist(x=adultData["education-num"])
+#plt.hist(x=adultData["hours-per-week"]);
 
+graph = px.treemap(adultData, path=['workclass']);
+graph.update_traces(root_color="lightgrey")
+graph.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+graph.show();
+
+
+graph = px.parallel_categories(adultData, dimensions=['occupation', 'relationship']);
+
+graph.show();
