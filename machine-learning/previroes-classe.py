@@ -1,5 +1,6 @@
 from builtins import int
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 
 import pandas as pd
 import numpy as np
@@ -42,9 +43,34 @@ print(np.unique(adultData["income"], return_counts=True));
 graph = px.treemap(adultData, path=['workclass']);
 graph.update_traces(root_color="lightgrey")
 graph.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-graph.show();
+graph.show();   
 
 
 graph = px.parallel_categories(adultData, dimensions=['occupation', 'relationship']);
 
 graph.show();
+
+xAdult = adultData.iloc[:, 0:14].values;
+yAdult = adultData.iloc[:, 14].values;
+
+print(xAdult);
+print(yAdult); 
+
+labelEncoderTest = LabelEncoder()
+teste = labelEncoderTest.fit_transform(xAdult[:, 1  ]);
+print(teste);
+
+labelEncoderWorkClass = LabelEncoder();
+labelEncoderEducation = LabelEncoder();
+labelEncoderMarital = LabelEncoder();
+labelEncoderOccupation = LabelEncoder();
+
+xAdult[:, 1] = labelEncoderWorkClass.fit_transform(xAdult[:, 1]);
+xAdult[:, 3] = labelEncoderEducation.fit_transform(xAdult[:, 3]);
+xAdult[:, 5] = labelEncoderMarital.fit_transform(xAdult[:, 5]);
+xAdult[:, 6] = labelEncoderOccupation.fit_transform(xAdult[:, 6]);
+print(xAdult[0]);
+
+
+
+
