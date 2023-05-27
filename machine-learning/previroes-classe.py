@@ -1,7 +1,11 @@
 from builtins import int
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
 
+import pickle
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -69,8 +73,30 @@ xAdult[:, 1] = labelEncoderWorkClass.fit_transform(xAdult[:, 1]);
 xAdult[:, 3] = labelEncoderEducation.fit_transform(xAdult[:, 3]);
 xAdult[:, 5] = labelEncoderMarital.fit_transform(xAdult[:, 5]);
 xAdult[:, 6] = labelEncoderOccupation.fit_transform(xAdult[:, 6]);
+xAdult[:, 7] = labelEncoderOccupation.fit_transform(xAdult[:, 7]);
+xAdult[:, 8] = labelEncoderOccupation.fit_transform(xAdult[:, 8]);
+xAdult[:, 9] = labelEncoderOccupation.fit_transform(xAdult[:, 9]);
+xAdult[:, 13] = labelEncoderOccupation.fit_transform(xAdult[:, 13]);
+
 print(xAdult[0]);
 
+hotEncoder = ColumnTransformer(transformers=[('OneHot',
+                               OneHotEncoder(),
+                               [1,3,5,6,7,8,9,13])],
+                               remainder='passthrough');
+hotEncodedData = hotEncoder.fit_transform(xAdult).toarray();
+print(hotEncodedData[0]);
+hotEncodedData = scalerCredit.fit_transform(hotEncodedData);
+print(hotEncodedData[0]);
+
+xAdultTraining, xAdultTest, yAdultTraining, yAdultTest = train_test_split(xAdult, yAdult, test_size= 0.25, random_state=0);
+print(xAdultTraining.shape);
+print(yAdultTraining.shape);
+print(xAdultTest.shape)
+print(yAdultTest.shape);  
+
+with open("credit.pkl", mode="wb") as f:
+    pickle.dump([xAdultTraining, yAdultTraining, xAdultTest, yAdultTraining], f)
 
 
 
