@@ -96,7 +96,7 @@ print(xAdultTest.shape)
 print(yAdultTest.shape);  
 
 with open("credit.pkl", mode="wb") as f:
-    pickle.dump([xAdultTraining, yAdultTraining, xAdultTest, yAdultTraining], f)
+    pickle.dump([xAdultTraining, yAdultTraining, xAdultTest, yAdultTest], f)
 
 
 

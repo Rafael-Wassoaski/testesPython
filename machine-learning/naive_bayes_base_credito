@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  9 17:43:38 2023
+
+@author: wassoaski
+"""
+from sklearn.preprocessing import LabelEncoder;
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report;   
+import pandas as pd;
+import pickle;
+from sklearn.naive_bayes import GaussianNB
+
+base_risco_credito = pd.read_csv("../../credit_risk_dataset.csv");
+print(base_risco_credito);
+
+previsores = base_risco_credito.iloc[:, [0,1,6]].values;
+print(previsores);
+
+classe = base_risco_credito.iloc[:, 8].values;
+
+labelEncoder = LabelEncoder();
+previsores[:, 0] = labelEncoder.fit_transform(previsores[:, 0]);
+previsores[:, 1] = labelEncoder.fit_transform(previsores[:, 1]);
+previsores[:, 2] = labelEncoder.fit_transform(previsores[:, 2]);
+
+print("prev", previsores);
+
+with open("risco_processado.pkl", "wb") as f:
+    pickle.dump([previsores,classe], f); 
+    
+naiverRiscoCredito = GaussianNB();
+naiverRiscoCredito.fit(previsores, classe);
+
+teste = [[0, 0, 1], [2,0,0]];
+
+resultado = naiverRiscoCredito.predict(teste);
+print(resultado);
+print(naiverRiscoCredito.classes_);
+print(naiverRiscoCredito.class_count_);
+print(naiverRiscoCredito.class_prior_);
+
+
+with open("credit.pkl", "rb") as f:
+    xAdultTraining, yAdultTraining, xAdultTest, yAdultTest = pickle.load(f);
+    
+print(xAdultTraining.shape);
+print(yAdultTraining.shape);
+
+naiverRiscoAdult = GaussianNB();
+naiverRiscoAdult.fit(xAdultTraining, yAdultTraining);
+previsoes = naiverRiscoAdult.predict(xAdultTest);
+print("resultado " , previsoes);
+print("esperado " , yAdultTest);
+print("comparacao " , accuracy_score(yAdultTest, previsoes));
+print("matrix de confusao " , confusion_matrix(yAdultTest, previsoes));
+print("metricas de classificacao ");
+print(classification_report(yAdultTest, previsoes));
+
+
+
+
+
+
+
+
+    
+    
+
+
